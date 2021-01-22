@@ -1,13 +1,23 @@
 const express = require('express')
-const route = require('express').Router();
+const route = express.Router();
 const User = require('../model/user')
 const bcrypt = require("bcryptjs");
 const { registerValidation, LoginValidation } = require("../validation");
+const jwt = require('jsonwebtoken')
+const {requireLogin} = require('../middleware/auth')
 
 
-
-route.get('/', (req, res)=>{
+route.get('/',  requireLogin, (req, res, next)=>{
+  //console.log(req.user)
+  try{
+    const user = User.findById({_id:req.user._id});
+   //res.send(user)
     res.send('Welcome to our homepage')
+  }
+  catch(err){
+    console.log(err)
+  }
+    
 })
 
 route.get('/register', (req, res)=>{
@@ -63,7 +73,9 @@ return res.status(400).json({ error: "Email already exists" });
 })
 
 
-route.post("/login", async (req, res) => {
+route.post("/api/login", async (req, res, next) => {
+
+  try{
 
   // validate the user
   const { error } = LoginValidation(req.body);
@@ -76,11 +88,20 @@ route.post("/login", async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword)
   return res.status(400).json({ error: "Password is wrong" });
+
+    const token  = jwt.sign({_id:user._id}, process.env.JWT_SECRET, {expiresIn: "3m"})
   res.json({
     error: null,
     data: {
+      userId: user._id,
+      token: token,
       message: "Login successful",
     },
   });
+
+  }
+  catch(err){ console.log(err)}
+
 });
+
 module.exports = route;

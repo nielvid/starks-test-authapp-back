@@ -21,8 +21,6 @@ mongoose.connect(process.env.DB_CONNECT_LOCAL, {
 })
 .catch((err)=>console.log(err))
 
-
-
 var corsOptions = {
   origin: "http://localhost:3000"
 };
