@@ -20,10 +20,7 @@ route.get('/',  requireLogin, (req, res, next)=>{
     
 })
 
-route.get('/register', (req, res)=>{
-    res.send('Register here')
-})
-route.get('/api/students', (req, res)=>{
+route.get('/api/students',requireLogin, (req, res, next)=>{
     var students = [
         {name:"James", age: 20, sex:'male'},
         {name:'Kate', age:21, sex:'female'},
@@ -31,7 +28,9 @@ route.get('/api/students', (req, res)=>{
         {name: 'Daniel', age:15, sex:'male'},
         {name: 'David', age:18, sex:'male'}
     ]
+    
     res.send(students)
+    
 })
 
 route.post('/api/newuser', async (req, res)=>{
@@ -90,18 +89,17 @@ route.post("/api/login", async (req, res, next) => {
   return res.status(400).json({ error: "Password is wrong" });
 
     const token  = jwt.sign({_id:user._id}, process.env.JWT_SECRET, {expiresIn: "3m"})
-  res.json({
+      res.send({
     error: null,
-    data: {
       userId: user._id,
       token: token,
-      message: "Login successful",
-    },
+      message: "Login successful"
   });
-
   }
   catch(err){ console.log(err)}
 
+
+  
 });
 
 module.exports = route;
