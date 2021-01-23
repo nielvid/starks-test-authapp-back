@@ -20,7 +20,7 @@ route.get('/',  requireLogin, (req, res, next)=>{
     
 })
 
-route.get('/api/students',requireLogin, (req, res, next)=>{
+route.get('/api/students', (req, res, next)=>{
     var students = [
         {name:"James", age: 20, sex:'male'},
         {name:'Kate', age:21, sex:'female'},
