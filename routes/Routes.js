@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 const {requireLogin} = require('../middleware/auth')
 
 
-route.get('/',  requireLogin, (req, res, next)=>{
+route.get('/user',  requireLogin, (req, res, next)=>{
   //console.log(req.user)
   try{
     const user = User.findById({_id:req.user._id});
