@@ -34,7 +34,7 @@ const RegisterUser = async (e)=>{
           history.push('/login'); //redirect to login page
 
     }catch(err){
-         console.log(err)
+         //console.log(err)
           setError(err.response.data.error );
 }
 }

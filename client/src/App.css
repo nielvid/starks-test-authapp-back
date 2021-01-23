@@ -32,7 +32,7 @@ body {
   transform: rotate(90deg);
 }
 .link:hover {
-  font-size: 25px;
+  font-size: 20px;
   text-decoration: underline;
   color: #fff8ab;
 }

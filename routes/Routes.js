@@ -92,11 +92,15 @@ route.post("/api/login", async (req, res, next) => {
       res.send({
     error: null,
       userId: user._id,
+      username: user.email,
       token: token,
       message: "Login successful"
   });
   }
-  catch(err){ console.log(err)}
+  catch(err){ 
+    console.log(err)
+    
+  }
 
 
   

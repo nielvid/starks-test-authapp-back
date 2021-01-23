@@ -1,11 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import { useHistory} from "react-router-dom";
 
 function HomePage() {
   var [students, setStudents] = useState(null)
+
    
+  const username = localStorage.getItem('username')
+
+  const date = new Date().toLocaleString()
  const history = useHistory() // hooks for redirection
 
 if(!localStorage.getItem('token')){
@@ -29,8 +33,14 @@ if(!localStorage.getItem('token')){
 
   return (
     <>
-      <Header>This is a Full-Stack Application</Header>
-      <SubHeader>React Front-End & NodeJs Back-End</SubHeader>
+    <SubTop>
+      <h4 style={{marginBottom: '2px', color: 'blue'}}>You are: <span style={{color: 'black'}}>{username} </span></h4>
+      <h4 style={{marginTop: '2px', color: 'blue'}}>Logged in: <span style={{color: 'black'}}>{date} </span> </h4>
+    </SubTop>
+    
+      <Header>Welcome to Your Dashboard</Header>
+      
+      <SubHeader>Click to Fetch Users from Database</SubHeader>
       <Bwrapper><Button onClick={getData}>Call Backend</Button></Bwrapper>
       {students
         ? students.map((student, index) => {
@@ -42,7 +52,7 @@ if(!localStorage.getItem('token')){
                   <li>{student.age}</li>
                   <li>{student.sex}</li>
                 </List>
-                <hr />
+                <hr style={{width : '80%', border: '2px solid black'}}/>
               </>
             )
           })
@@ -50,10 +60,17 @@ if(!localStorage.getItem('token')){
     </>
   )
 }
+const SubTop  = styled.div `
+width: '80%';
+position: absolute;
+top: 40px;
+right: 150px;
 
+`
 const Header = styled.h1`
   text-align: center;
   color: blue;
+  margin-top: 90px;
 `
 const SubHeader = styled.h3`
   text-align: center;

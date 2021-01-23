@@ -8,6 +8,9 @@ import axios from 'axios'
 function Login() {
  const history = useHistory() // hooks for redirection
     
+if(localStorage.getItem('token')){
+  history.push('/home'); //redirect to login page
+}
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -21,13 +24,14 @@ const LoginUser = (e)=>{
      
     }
     axios.post('api/login', user).then((res) => {
-        console.log(res)
+        //console.log(res)
         localStorage.setItem("token", res.data.token)
+        localStorage.setItem("username", res.data.username)
         history.push('/home'); //redirect to login page
         
 }).catch((err) =>{
-        console.log(err)
-        setError(err.response.data.error );
+        //console.log(err)
+        setError(err.response.data.error);
     })
 }
 
