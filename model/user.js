@@ -1,7 +1,6 @@
-var mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-
-var UserSchema =  mongoose.Schema;
+const UserSchema =  mongoose.Schema;
 
 const user = new UserSchema({
     username: {
@@ -22,7 +21,7 @@ const user = new UserSchema({
     min: 6,
     max: 1024,
   },
-   tel: {
+   telephone: {
     type: String,
     required: true,
     min: 6,
@@ -34,7 +33,7 @@ const user = new UserSchema({
   },
 });
 
-var users = mongoose.model('users', user)
+const users = mongoose.model("users", user);
 
 module.exports = users;
 
