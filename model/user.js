@@ -3,12 +3,6 @@ const mongoose = require("mongoose");
 const UserSchema =  mongoose.Schema;
 
 const user = new UserSchema({
-    username: {
-    type: String,
-    required: true,
-    min: 6,
-    max: 255,
-  },
   email: {
     type: String,
     required: true,
@@ -21,11 +15,8 @@ const user = new UserSchema({
     min: 6,
     max: 1024,
   },
-   telephone: {
+   token: {
     type: String,
-    required: true,
-    min: 6,
-    max: 1024,
   },
   date: {
     type: Date,
