@@ -1,9 +1,11 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../model/user");
+const nodemailer = require('nodemailer')
 const { registerValidation, LoginValidation } = require("../validation");
 const { OAuth2Client } = require('google-auth-library')
 // const client = new OAuth2Client(process.env.CLIENT_ID)
+const {createTransporter} = require('../utilities/googleAPi')
 
 const HomePage = async (req, res, next) => {
   // console.log(req.user)
@@ -140,4 +142,42 @@ const GoogleLogin = async (req, res, next) => {
 }
 
 
-module.exports = { HomePage, Signup, Login, GoogleSignup , GoogleLogin  };
+const SendMail = async(req, res, next) => {
+ 
+      // Pulling out the form data from the request body
+      const recipient = req.body.email;
+      const mailSubject = req.body.subject;
+      const mailBody = req.body.message;
+     
+
+      // Mail options
+      let mailOptions = {
+        from: process.env.SENDER,
+        to: recipient,
+        subject: mailSubject,
+        text: mailBody,
+      };
+
+      try {
+        // Get response from the createTransport
+        let emailTransporter = await createTransporter();
+
+        // Send email
+        emailTransporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            // failed block
+            console.log(error);
+          } else {
+            // Success block
+            console.log("Email sent: " + info.response);
+            return res.send(info);
+          }
+        });
+      } catch (error) {
+        return console.log(error);
+      }
+    
+  };
+
+
+module.exports = { HomePage, Signup, Login, GoogleSignup , GoogleLogin, SendMail  };
